@@ -15,5 +15,12 @@
     "scripts": [
       "background.js"
     ]
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*/*", "http://*/*"],
+      "js": ["content/content.js"],
+      "css": ["content/content.css"]
+    }
+  ]
 }
