@@ -6,7 +6,7 @@
       <button type="button" class="time-eater-tab">Week</button>
     </div>
     <div class="time-eater-tab-content">
-      <p>Hostname: {{hostname}}</p>
+      <p>Hostname: {{currTab}}</p>
       <p class="clock">{{displayedCurrTime}}</p>
       <p>Total: {{displayedTotalTime}}</p>
       <button v-on:click="startTime">Start</button>
@@ -19,26 +19,27 @@
 export default {
   data() {
     return {
-      currTime: 0,
-      prevTime: 0,
-      // totalTime: 0,
       timer: null,
-      currentUrl: '',
-      hostname: '',
     };
   },
   computed: {
+    currTab() {
+      return this.$store.state.currTab;
+    },
+    currTabTime() {
+      return this.$store.state.currTabTime;
+    },
+    currTabTimeTotal() {
+      return this.$store.state.currTabTimePrev + this.$store.state.currTabTime;
+    },
+
     displayedCurrTime() {
-      const currTimeObj = this.createTimeObject(this.currTime);
+      const currTimeObj = this.createTimeObject(this.currTabTime);
       return this.formatTime(currTimeObj);
     },
     displayedTotalTime() {
-      const totalTimeObj = this.createTimeObject(this.totalTime);
+      const totalTimeObj = this.createTimeObject(this.currTabTimeTotal);
       return this.formatTime(totalTimeObj);
-    },
-    totalTime() {
-      // this.totalTime = this.prevTime + this.currTime;
-      return this.prevTime + this.currTime;
     },
   },
   methods: {
@@ -50,7 +51,8 @@ export default {
 
       return { h: hours, m: minutes, s: seconds };
     },
-    formatTime({ h, m, s }) {
+    formatTime(timeObj) {
+      const { h, m, s } = timeObj;
       return `${this.z(h)}:${this.z(m)}:${this.z(s)}`;
     },
     z(number) {
@@ -59,60 +61,44 @@ export default {
     },
     startTime() {
       this.timer = setInterval(() => {
-        this.currTime += 1;
+        this.$store.commit('INCREMENT_TIME');
       }, 1000);
     },
     stopTime() {
       clearInterval(this.timer);
-      console.log(`T: ${this.totalTime} + C: ${this.currTime} `);
-
       this.saveTime();
       this.timer = 0;
-      this.currTime = 0;
+      this.$store.commit('RESET_TIME');
       this.getTime();
     },
     getUrl() {
       console.log('getUrl()-------');
       chrome.tabs.query({
         active: true,
-        lastFocusedWindow: true,
-        // currentWindow: true,
+        // lastFocusedWindow: true,
+        currentWindow: true,
       }, (tabs) => {
-        // and use that tab to fill in out title and url
-        this.currentUrl = tabs[0].url;
-        this.hostname = new URL(this.currentUrl).hostname;
-        console.log(this.currentUrl);
-        console.log(this.hostname);
-        // alert(tab.url);
+        const currentUrl = tabs[0].url;
+        const { hostname } = new URL(currentUrl);
+        this.$store.commit('SET_CURR_TAB', hostname);
         this.getTime();
       });
     },
     getTime() {
       console.log('getTime()-------');
-      // chrome.storage.local.get((this.hostname), (result) => {
-      //   console.log(result);
-      //   this.prevTime = result[this.hostname] || 0;
-      //   console.log(`get ${this.hostname} : ${this.prevTime}`);
-      // });
+      const prevTime = Number(localStorage.getItem(this.currTab)) || 0;
 
-      this.prevTime = localStorage.getItem(this.hostname) || 0;
-      console.log(`get ${this.hostname} : ${this.prevTime}`);
+      console.log(`get ${this.currTab} : ${prevTime}`);
+      this.$store.commit('SET_CURR_TAB_PREV_TIME', prevTime);
     },
     saveTime() {
-      // const timeObject = {};
-      // timeObject[this.hostname] = this.totalTime;
-      // chrome.storage.local.set(timeObject, () => {
-      //   console.log(`save ${this.hostname} : ${this.totalTime}`);
-      // });
-
-      localStorage.setItem(this.hostname, this.totalTime);
-      console.log(`save ${this.hostname} : ${this.totalTime}`);
+      localStorage.setItem(this.currTab, this.currTabTimeTotal);
+      console.log(`save ${this.currTab} : ${this.currTabTimeTotal}`);
     },
   },
   mounted() {
     this.getUrl();
-    // this.getTime();
-    this.startTime();
+    // this.startTime();
   },
 };
 </script>

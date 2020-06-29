@@ -11,6 +11,5 @@ new Vue({
   el: '#popup',
   // el: pagePopup,
   store,
-
   render: (h) => h(App),
 });

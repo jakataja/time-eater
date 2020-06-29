@@ -10,6 +10,9 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     foo: 'bar',
+    currTab: '',
+    currTabTime: 0,
+    currTabTimePrev: 0,
   },
   getters,
   mutations,
