@@ -1,4 +1,47 @@
-p {
-  color: red;
-  font-size: 20px;
+html, body {
+  font-family: 'Open Sans', Tahoma, Arial, serif;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+
+}
+
+#time-eater-popup {
+  background-color: #000;
+  color: #fff;
+  //height: 400px;
+  width: 300px;
+  //position: fixed;
+  //top: 0;
+  //right: 0;
+}
+
+.time-eater-tabs {
+  display: flex;
+  height: 40px;
+}
+
+.time-eater-tab {
+  background-color: #006064;
+  border: 0;
+  color: #fff;
+  flex: 1 1 auto;
+}
+
+.is-active {
+  background-color: #000;
+}
+
+.time-eater-tab-content {
+  padding: 20px;
+}
+
+
+.clock {
+  font-family: 'ZCOOL QingKe HuangYou', cursive;
+  font-size: 36px;
+  text-align: center;
 }

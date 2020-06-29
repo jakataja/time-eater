@@ -37,6 +37,12 @@ export default {
       clearInterval(this.timer);
       this.timer = 0;
     },
+    saveTime() {
+
+    },
+    getTime() {
+
+    }
   },
   mounted() {
     // this.startTime();
