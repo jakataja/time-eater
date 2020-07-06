@@ -1,21 +1,15 @@
-// import Vue from 'vue';
-// import App from './App';
-// import store from '../store';
-//
-// const pageBody = document.body.firstChild;
-// const pagePopup = document.createElement('div');
-// document.body.insertBefore(pagePopup, pageBody);
-//
-// console.log('extension');
-// // eslint-disable-next-line no-new
-// new Vue({
-//   el: pagePopup,
-//   // el: '#app',
-//   store,
-//
-//   render: (h) => h(App),
-// });
+import Vue from 'vue';
+import Bar from './Bar';
+import store from '../store';
 
-chrome.tabs.onActivated.addListener(({ tabId, windowId}) => {
-  console.log(`activated tab ${tabId} / ${windowId}`);
+const pagePopup = document.createElement('div');
+pagePopup.id = 'vwe-bar';
+document.body.prepend(pagePopup);
+
+console.log('extension', pagePopup);
+// eslint-disable-next-line no-new
+new Vue({
+  el: '#vwe-bar',
+  store,
+  render: (h) => h(Bar),
 });

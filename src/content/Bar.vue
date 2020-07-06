@@ -6,8 +6,8 @@
       <button type="button" class="time-eater-tab">Week</button>
     </div>
     <div class="time-eater-tab-content">
-      <p>Hostname: {{currTab}}</p>
-      <p class="clock">{{displayedCurrTime}}</p>
+      <p>Hostname: {{ currTab }}</p>
+      <p class="clock">{{currTabTime}} {{displayedCurrTime}}</p>
       <p>Total: {{displayedTotalTime}}</p>
       <button @click="startTime">Start</button>
       <button @click="stopTime">Stop</button>
@@ -16,12 +16,13 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
+  name: 'App',
   data() {
     return {
-      timer: null,
+      // timer: null,
     };
   },
   computed: {
@@ -36,10 +37,10 @@ export default {
     ...mapState({
       currTab: (state) => state.currTab,
       currTabTime: (state) => state.currTabTime,
+      currTabTimeTotal(state) {
+        return state.currTabTimePrev + state.currTabTime;
+      },
     }),
-    ...mapGetters([
-      'currTabTimeTotal',
-    ]),
   },
   methods: {
     createTimeObject(time) {
@@ -61,7 +62,7 @@ export default {
     startTime() {
       this.timer = setInterval(() => {
         // this.$store.commit('INCREMENT_TIME');
-        console.log(`${this.currTabTime} / ${this.currTabTime}`);
+        console.log(`${this.$store.state.currTabTime} / ${this.currTabTime}`);
       }, 1000);
     },
     stopTime() {
@@ -86,23 +87,58 @@ export default {
     // },
     getTime() {
       console.log('getTime()-------');
-      const prevTime = Number(localStorage.getItem(`${this.currTab}`)) || 0;
+      const prevTime = Number(localStorage.getItem(this.currTab)) || 0;
 
       console.log(`get ${this.currTab} : ${prevTime}`);
       this.$store.commit('SET_CURR_TAB_PREV_TIME', prevTime);
     },
     saveTime() {
-      localStorage.setItem(`${this.currTab}`, `${this.currTabTimeTotal}`);
+      localStorage.setItem(this.currTab, this.currTabTimeTotal);
       console.log(`save ${this.currTab} : ${this.currTabTimeTotal}`);
     },
   },
   mounted() {
+    console.log('getTime()-------');
     // this.getUrl();
-    this.startTime();
+    // this.startTime();
   },
 };
 </script>
 
 <style lang="scss" scoped>
-  @import 'popup';
+  #time-eater-popup {
+    background-color: #000;
+    color: #fff;
+    width: 300px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 100000;
+  }
+
+  .time-eater-tabs {
+    display: flex;
+    height: 40px;
+  }
+
+  .time-eater-tab {
+    background-color: #006064;
+    border: 0;
+    color: #fff;
+    flex: 1 1 auto;
+  }
+
+  .is-active {
+    background-color: #000;
+  }
+
+  .time-eater-tab-content {
+    padding: 20px;
+  }
+
+  .clock {
+    font-family: 'ZCOOL QingKe HuangYou', cursive;
+    font-size: 36px;
+    text-align: center;
+  }
 </style>
