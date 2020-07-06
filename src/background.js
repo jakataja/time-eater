@@ -2,7 +2,7 @@ import store from './store';
 
 window.store = store;
 
-alert(`Hello ${store.getters.foo}!`);
+// alert(`Hello ${store.getters.foo}!`);
 
 let timer;
 
@@ -12,51 +12,69 @@ const clearTimer = () => {
 };
 
 const saveTime = () => {
+  if (store.state.currTab === '') return;
   localStorage.setItem(`${store.state.currTab}`, `${store.getters.currTabTimeTotal}`);
-  console.log(`save ${store.state.currTab} : ${store.getters.currTabTimeTotal}`);
+  // console.log(`save ${store.state.currTab} : ${store.getters.currTabTimeTotal}`);
   clearTimer();
 };
 
 const startTimer = () => {
   timer = setInterval(() => {
     store.commit('INCREMENT_TIME');
-      console.log(`time ${store.state.currTabTime}/${store.getters.currTabTimeTotal}`);
+    // console.log(`time ${store.state.currTabTime}/${store.getters.currTabTimeTotal}`);
   }, 1000);
-  // console.log(`time ${store.state.currTabTime}/${store.getters.currTabTimeTotal}`);
 };
 
 const getTime = () => {
-  console.log(`getTime(${store.state.currTab})-------`);
+  // console.log(`getTime(${store.state.currTab})-------`);
   const prevTime = Number(localStorage.getItem(`${store.state.currTab}`)) || 0;
-
-  console.log(`get ${store.state.currTab} : ${prevTime}`);
+  // console.log(`get ${store.state.currTab} : ${prevTime}`);
   store.commit('SET_CURR_TAB_PREV_TIME', prevTime);
+};
 
+const onGetTab = (tab) => {
+  const { url } = tab;
+  const { hostname } = new URL(url);
+
+  if (hostname === store.state.currTab) {
+    return;
+  }
+
+  saveTime();
+  store.commit('SET_CURR_TAB', hostname);
+  // console.log(`onGetTab ${hostname}`);
+  getTime();
   startTimer();
 };
 
+
 const getUrl = (id) => {
-  console.log('getUrl()-------');
-  chrome.tabs.get(id, (tab) => {
-    console.log(`tab ${tab.url}`);
-    const currentUrl = tab.url;
-    const { hostname } = new URL(currentUrl);
-    if (hostname === store.state.currTab) {
-      console.log('same domain');
-      return;
-    }
+  // console.log(`getUrl(${id})`);
 
-    saveTime();
-    store.commit('SET_CURR_TAB', hostname);
-    console.log(hostname);
-
-    getTime();
-  });
+  if (id) {
+    // activated
+    chrome.tabs.get(id, (tab) => {
+      onGetTab(tab);
+    });
+  } else {
+    // initial
+    chrome.tabs.query({
+      active: true,
+      // lastFocusedWindow: true,
+      currentWindow: true,
+    }, (tabs) => {
+      onGetTab(tabs[0]);
+    });
+  }
 };
 // chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 //   console.log(request);
 //   console.log(sender);
 // });
+
+const init = (id) => {
+  getUrl(id);
+};
 
 chrome.tabs.onActivated.addListener(({ tabId, windowId }) => {
   console.log(`activated tab ${tabId} / ${windowId}`);
@@ -64,5 +82,7 @@ chrome.tabs.onActivated.addListener(({ tabId, windowId }) => {
   //     console.log(response.farewell);
   // });
 
-  getUrl(tabId);
+  init(tabId);
 });
+
+init();

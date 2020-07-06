@@ -9,8 +9,8 @@
       <p>Hostname: {{currTab}}</p>
       <p class="clock">{{displayedCurrTime}}</p>
       <p>Total: {{displayedTotalTime}}</p>
-      <button @click="startTime">Start</button>
-      <button @click="stopTime">Stop</button>
+<!--      <button @click="startTime">Start</button>-->
+<!--      <button @click="stopTime">Stop</button>-->
     </div>
   </div>
 </template>
@@ -58,47 +58,35 @@ export default {
       // put zero before
       return ((number > 9) ? `${number}` : `0${number}`);
     },
-    startTime() {
-      this.timer = setInterval(() => {
-        // this.$store.commit('INCREMENT_TIME');
-        console.log(`${this.currTabTime} / ${this.currTabTime}`);
-      }, 1000);
-    },
-    stopTime() {
-      clearInterval(this.timer);
-      this.saveTime();
-      this.timer = 0;
-      this.$store.commit('RESET_TIME');
-      this.getTime();
-    },
-    // getUrl() {
-    //   console.log('getUrl()-------');
-    //   chrome.tabs.query({
-    //     active: true,
-    //     // lastFocusedWindow: true,
-    //     currentWindow: true,
-    //   }, (tabs) => {
-    //     const currentUrl = tabs[0].url;
-    //     const { hostname } = new URL(currentUrl);
-    //     this.$store.commit('SET_CURR_TAB', hostname);
-    //     this.getTime();
-    //   });
+    // startTime() {
+    //   this.timer = setInterval(() => {
+    //     // this.$store.commit('INCREMENT_TIME');
+    //     console.log(`${this.currTabTime} / ${this.currTabTime}`);
+    //   }, 1000);
     // },
-    getTime() {
-      console.log('getTime()-------');
-      const prevTime = Number(localStorage.getItem(`${this.currTab}`)) || 0;
+    // stopTime() {
+    //   clearInterval(this.timer);
+    //   this.saveTime();
+    //   this.timer = 0;
+    //   this.$store.commit('RESET_TIME');
+    //   this.getTime();
+    // },
 
-      console.log(`get ${this.currTab} : ${prevTime}`);
-      this.$store.commit('SET_CURR_TAB_PREV_TIME', prevTime);
-    },
-    saveTime() {
-      localStorage.setItem(`${this.currTab}`, `${this.currTabTimeTotal}`);
-      console.log(`save ${this.currTab} : ${this.currTabTimeTotal}`);
-    },
+    // getTime() {
+    //   console.log('getTime()-------');
+    //   const prevTime = Number(localStorage.getItem(`${this.currTab}`)) || 0;
+    //
+    //   console.log(`get ${this.currTab} : ${prevTime}`);
+    //   this.$store.commit('SET_CURR_TAB_PREV_TIME', prevTime);
+    // },
+    // saveTime() {
+    //   localStorage.setItem(`${this.currTab}`, `${this.currTabTimeTotal}`);
+    //   console.log(`save ${this.currTab} : ${this.currTabTimeTotal}`);
+    // },
   },
   mounted() {
     // this.getUrl();
-    this.startTime();
+    // this.startTime();
   },
 };
 </script>

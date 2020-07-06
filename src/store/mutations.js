@@ -1,11 +1,9 @@
 import * as types from './mutation-types';
 
 export default {
-  [types.UPDATE_FOO](state, payload) {
-    state.foo = payload;
-  },
   [types.SET_CURR_TAB](state, currTab) {
     state.currTab = currTab;
+    console.log(`SET_CURR_TAB ${state.currTab}`);
   },
   [types.INCREMENT_TIME](state) {
     state.currTabTime += 1;
