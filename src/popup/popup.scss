@@ -1,5 +1,12 @@
+$primary-beige: #eae7dc;
+$primary-toffee: #d8c3a5;
+$primary-gray: #8e8d8a;
+$primary-peach: #e98074;
+$primary-red: #e85a4f;
+$primary-dark: #2B2A29;
+
 html, body {
-  font-family: 'Open Sans', Tahoma, Arial, serif;
+  font-family: Verdana, Geneva, sans-serif;
   font-size: 16px;
   margin: 0;
   padding: 0;
@@ -10,8 +17,10 @@ body {
 }
 
 #time-eater-popup {
-  background-color: #000;
-  color: #fff;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 16px;
+  background-color: $primary-beige;
+  color: $primary-gray;
   width: 300px;
 }
 
@@ -21,23 +30,84 @@ body {
 }
 
 .time-eater-tab {
-  background-color: #006064;
+  background-color: rgba($primary-gray, .3);
   border: 0;
-  color: #fff;
+  color: $primary-beige;
   flex: 1 1 auto;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: background-color 300ms ease-in;
+
+  &:hover {
+    background-color: $primary-gray;
+  }
 }
 
 .is-active {
-  background-color: #000;
+  background-color: $primary-beige;
+  color: $primary-dark;
 }
 
 .time-eater-tab-content {
   padding: 20px;
 }
 
+.te-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  &-item {
+    color: $primary-dark;
+    margin: 0;
+    padding: 4px;
+    display: flex;
+    line-height: 1;
+  }
+
+  &-url {
+    background-color: $primary-beige;
+    position: relative;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  &-separator {
+    flex-grow: 1;
+    opacity: .3;
+    margin: 0 3px;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 1px;
+      height: 1px;
+      width: 100%;
+      background-color: rgba($primary-gray, .5);
+    }
+
+  }
+
+  &-time {
+    background-color: $primary-beige;
+    color: $primary-red;
+    font-size: 11px;
+    font-weight: 600;
+  }
+}
 
 .clock {
-  font-family: 'ZCOOL QingKe HuangYou', cursive;
-  font-size: 36px;
+  color: $primary-peach;
+  font-family: Impact, serif; //'ZCOOL QingKe HuangYou', cursive;
+  font-size: 40px;
   text-align: center;
+
+  span {
+    font-size: 20px;
+    color: $primary-gray;
+    opacity: .3;
+  }
 }

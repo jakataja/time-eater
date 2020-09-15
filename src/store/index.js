@@ -14,6 +14,8 @@ export default new Vuex.Store({
     currTab: '',
     currTabTime: 0,
     currTabTimePrev: 0,
+    allTabs: [],
+    today: '',
   },
   getters,
   mutations,

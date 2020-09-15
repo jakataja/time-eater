@@ -6,6 +6,12 @@ window.store = store;
 
 let timer;
 
+const getToday = () => {
+  const date = new Date();
+  console.log(date);
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()-1}`;
+};
+
 const clearTimer = () => {
   store.commit('RESET_TIME');
   clearInterval(timer);
@@ -73,6 +79,11 @@ const getUrl = (id) => {
 // });
 
 const init = (id) => {
+  const today = getToday();
+  console.log(today);
+  if (store.getters.today !== today) {
+    store.commit('SET_TODAY', today);
+  }
   getUrl(id);
 };
 
