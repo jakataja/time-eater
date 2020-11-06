@@ -1,4 +1,7 @@
 import store from './store';
+import { z } from './utils';
+import TabObject from './TabObject';
+
 
 window.store = store;
 
@@ -6,39 +9,49 @@ window.store = store;
 
 let timer;
 
-const getToday = () => {
+export const getToday = () => {
   const date = new Date();
   console.log(date);
-  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()-1}`;
+  return `${date.getFullYear()}-${z(date.getMonth() + 1)}-${z(date.getDate())}`;
 };
 
-const clearTimer = () => {
+export const clearTimer = () => {
   store.commit('RESET_TIME');
   clearInterval(timer);
 };
 
-const saveTime = () => {
+export const saveTime = () => {
   if (store.state.currTab === '') return;
   localStorage.setItem(`${store.state.currTab}`, `${store.getters.currTabTimeTotal}`);
   // console.log(`save ${store.state.currTab} : ${store.getters.currTabTimeTotal}`);
   clearTimer();
 };
 
-const startTimer = () => {
+export const startTimer = () => {
   timer = setInterval(() => {
     store.commit('INCREMENT_TIME');
     // console.log(`time ${store.state.currTabTime}/${store.getters.currTabTimeTotal}`);
   }, 1000);
 };
 
-const getTime = () => {
+export const getTime = () => {
   // console.log(`getTime(${store.state.currTab})-------`);
   const prevTime = Number(localStorage.getItem(`${store.state.currTab}`)) || 0;
   // console.log(`get ${store.state.currTab} : ${prevTime}`);
   store.commit('SET_CURR_TAB_PREV_TIME', prevTime);
 };
 
-const onGetTab = (tab) => {
+export const getAll = () => {
+  const tabs = [];
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < localStorage.length; i++) {
+    tabs[i] = new TabObject(localStorage.key(i), localStorage.getItem(localStorage.key(i)));
+  }
+
+  store.commit('SET_ALL_TABS', tabs);
+};
+
+export const onGetTab = (tab) => {
   const { url } = tab;
   const { hostname } = new URL(url);
 
@@ -54,7 +67,7 @@ const onGetTab = (tab) => {
 };
 
 
-const getUrl = (id) => {
+export const getUrl = (id) => {
   // console.log(`getUrl(${id})`);
 
   if (id) {
@@ -78,13 +91,14 @@ const getUrl = (id) => {
 //   console.log(sender);
 // });
 
-const init = (id) => {
+export const init = (id) => {
   const today = getToday();
-  console.log(today);
+  console.log('today', today, store.getters.today);
   if (store.getters.today !== today) {
     store.commit('SET_TODAY', today);
   }
   getUrl(id);
+  getAll();
 };
 
 chrome.tabs.onActivated.addListener(({ tabId, windowId }) => {
@@ -97,3 +111,4 @@ chrome.tabs.onActivated.addListener(({ tabId, windowId }) => {
 });
 
 init();
+

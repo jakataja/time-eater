@@ -65,6 +65,12 @@ body {
     padding: 4px;
     display: flex;
     line-height: 1;
+
+    &:first-child {
+      .te-list-url {
+        font-weight: bold;
+      }
+    }
   }
 
   &-url {

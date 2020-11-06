@@ -4,7 +4,6 @@ import Vuex from 'vuex';
 import VuexChromePlugin from 'vuex-chrome-plugin';
 import * as getters from './getters';
 import mutations from './mutations';
-import * as actions from './actions';
 
 Vue.use(Vuex);
 
@@ -19,7 +18,6 @@ export default new Vuex.Store({
   },
   getters,
   mutations,
-  actions,
   plugins: [
     VuexChromePlugin(),
   ],
