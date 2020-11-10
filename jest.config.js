@@ -95,10 +95,6 @@ module.exports = {
   // that allow to stub out resources with a single module
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
-    // '@te': '<rootDir>/node_modules/',
-    // node_modules: '<rootDir>/node_modules',
-    // src: '<rootDir>/src',
-    // },
   },
 
   // An array of regexp pattern strings, matched against all module paths

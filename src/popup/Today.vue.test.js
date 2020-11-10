@@ -25,7 +25,6 @@ describe('Today.vue', () => {
       getters,
       actions,
     });
-
   });
 
   it('Renders "ALL" in first span with class "te-list-url"', () => {

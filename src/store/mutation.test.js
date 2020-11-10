@@ -1,4 +1,3 @@
-import Vuex from 'vuex';
 import mutations from './mutations';
 
 describe('mutation', () => {
@@ -38,10 +37,10 @@ describe('mutation', () => {
 
   it('SET_ALL_TABS set "state.allTabs"', () => {
     const tabs = [
-      { url: 'www.google.pl', time: '98129'},
-      { url: 'www.github.com', time: '45732'},
-      { url: 'www.gmail.com', time: '232'},
-      { url: 'vue-test-utils.vuejs.org/', time: '765'},
+      { url: 'www.google.pl', time: '98129' },
+      { url: 'www.github.com', time: '45732' },
+      { url: 'www.gmail.com', time: '232' },
+      { url: 'vue-test-utils.vuejs.org/', time: '765' },
     ];
     mutations.SET_ALL_TABS(state, tabs);
     expect(state.allTabs).toBe(tabs);

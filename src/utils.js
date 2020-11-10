@@ -22,31 +22,20 @@ export const timeToString = (time) => `
 // eg. (3, 2) - 2 days, 3-2 days from today
 // default (0, 0) - today
 export const filterDaysBack = (tabsArr, from = 0, to = 0) => {
-  // try {
   if (from < to) {
     throw new Error('Wrong range of days!');
   }
-  // } catch (err) {
-  //   console.log(err.message);
-  // }
 
   const day = new Date();
   const daysBack = [];
   let dayToString;
 
-  // console.log('filterDaysBack', day, from, to);
-
   // eslint-disable-next-line no-plusplus
   for (let i = to; i <= from; i++) {
     if (i !== 0) day.setDate(day.getDate() - 1);
-    // day.setDate((new Date().getDate()) - i);
-    // console.log("@ ", day);
     dayToString = `${day.getFullYear()}-${z(day.getMonth() + 1)}-${z(day.getDate())}`;
     daysBack.push(dayToString);
-    // day.setDate(day.getDate() - 1);
   }
-
-  // console.log("@ ", daysBack);
 
   const filtered = tabsArr
     .filter((item) => {
@@ -54,8 +43,6 @@ export const filterDaysBack = (tabsArr, from = 0, to = 0) => {
       return daysBack.includes(d);
     })
     .map((item) => new TabObject(item.url, item.time));
-
-  // console.log("@ filtered", tabsArr, filtered);
 
   return filtered;
 };

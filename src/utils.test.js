@@ -11,10 +11,8 @@ afterAll(() => {
   global.Date = RealDate;
 });
 
-
 describe('dateToString', () => {
   test('should show a formatted date of today', () => {
-    // const mockDate = new Date('2020-10-07T10:20:30Z');
     expect(utils.dateToString(mockDate)).toStrictEqual('2020-10-13');
   });
 });
@@ -78,7 +76,7 @@ describe('filterDaysBack', () => {
 
   test('should return array with tabs visited today when from & to are default params', () => {
     const expectedTabs = [
-      { url: '2020-10-13_www.google.com', time: 0},
+      { url: '2020-10-13_www.google.com', time: 0 },
     ];
     expect(utils.filterDaysBack(mockTabs)).toMatchObject(expectedTabs);
   });
