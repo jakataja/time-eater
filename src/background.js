@@ -1,6 +1,5 @@
 import store from './store';
-import { z } from './utils';
-import TabObject from './TabObject';
+import { z, TabObject } from './utils';
 
 window.store = store;
 

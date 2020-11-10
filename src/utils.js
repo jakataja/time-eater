@@ -1,5 +1,3 @@
-import TabObject from './TabObject';
-
 const DECIMAL_ZERO = '0';
 
 export const dateToString = (date) => `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
@@ -15,6 +13,27 @@ export const timeToObject = (time) => ({
 export const timeToString = (time) => `
   ${z(Math.floor(time / 3600))}:${z(Math.floor(time / 60) % 60)}:${z(time % 60)}
 `;
+
+export class TabObject {
+  constructor(url, time) {
+    this.url = url;
+    this.time = time;
+    this.removeTimeStamp = this.removeTimeStamp.bind(this);
+    this.timeToString = this.timeToString.bind(this);
+  }
+
+  removeTimeStamp(date) {
+    const { url } = this;
+    this.url = url.substr(-(url.length - date.length - 1));
+    return this;
+  }
+
+  timeToString() {
+    const { time } = this;
+    this.time = timeToString(time);
+    return this;
+  }
+}
 
 // from - number of days from today back
 // to - number of days from today back
@@ -48,4 +67,5 @@ export const filterDaysBack = (tabsArr, from = 0, to = 0) => {
 };
 
 export const sortTime = (a, b) => b.time - a.time;
+
 export const sumTime = (a, b) => a + parseInt(b.time, 10);
