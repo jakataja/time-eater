@@ -12,12 +12,16 @@ const config = {
   entry: {
     background: './background.js',
     'popup/popup': './popup/popup.js',
+    'content/content': './content/content.js',
   },
   output: {
     path: `${__dirname}/dist`,
     filename: '[name].js',
   },
   resolve: {
+    modules: [
+      `${__dirname}/node_modules`,
+    ],
     extensions: ['.js', '.vue'],
   },
   module: {
@@ -37,7 +41,11 @@ const config = {
       },
       {
         test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader',
+        ],
       },
       {
         test: /\.sass$/,
@@ -76,6 +84,7 @@ const config = {
     new CopyPlugin([
       { from: 'icons', to: 'icons', ignore: ['icon.xcf'] },
       { from: 'popup/popup.html', to: 'popup/popup.html', transform: transformHtml },
+      { from: 'content/content.html', to: 'content/content.html', transform: transformHtml },
       {
         from: 'manifest.json',
         to: 'manifest.json',

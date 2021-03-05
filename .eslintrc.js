@@ -9,13 +9,17 @@ module.exports = {
   env: {
     browser: true,
     webextensions: true,
+    node: true,
+    jest: true,
+    "jest/globals": true
   },
   // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
   // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
   extends: ['plugin:vue/essential', 'airbnb-base'],
   // required to lint *.vue files
   plugins: [
-    'vue'
+    'vue',
+    'jest',
   ],
   // check if imports actually resolve
   settings: {
